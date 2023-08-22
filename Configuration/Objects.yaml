@@ -1,0 +1,6 @@
+Sitegeist\ArtClasses\Domain\Translation\ImageInterpretationTranslatorInterface:
+  factoryObjectName: 'Sitegeist\ArtClasses\DeepLTranslator\Domain\DeepLInterpretationTranslatorFactory'
+  factoryMethodName: create
+  arguments:
+    1:
+      setting: Sitegeist.ArtClasses.DeepLTranslator.authKey
