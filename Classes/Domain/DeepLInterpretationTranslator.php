@@ -37,6 +37,7 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
         );
 
         return new ImageInterpretation(
+            $targetLocale,
             $translatedValues[0]->text ?? $imageInterpretation->description
         );
     }
