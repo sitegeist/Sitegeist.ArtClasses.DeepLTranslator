@@ -61,7 +61,7 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
         );
 
         $description = array_key_exists('description', $translationIndices)
-            ? $translatedValues[$translationIndices['description']]
+            ? $translatedValues[$translationIndices['description']]->text
             : $imageInterpretation->description;
 
         $labels = $imageInterpretation->labels;
@@ -81,7 +81,7 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
         $texts = $imageInterpretation->texts;
         $additionalTexts = [];
         foreach ($translationIndices['texts'] ?? [] as $labelIndex => $translationIndex) {
-            $text = $objects[$labelIndex];
+            $text = $texts[$labelIndex];
             $additionalTexts[] = new InterpretedText(
                 $translatedValues[$translationIndex]->text,
                 null,
