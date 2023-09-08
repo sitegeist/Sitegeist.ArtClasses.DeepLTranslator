@@ -54,11 +54,13 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
             $i++;
         }
 
-        $translatedValues = $this->translator->translateText(
-            $textsToTranslate,
-            $sourceLocale?->getLanguage(),
-            $targetLocale->getLanguage()
-        );
+        $translatedValues = !empty($textsToTranslate)
+            ? $this->translator->translateText(
+                $textsToTranslate,
+                $sourceLocale?->getLanguage(),
+                $targetLocale->getLanguage()
+            )
+            : [];
 
         $description = array_key_exists('description', $translationIndices)
             ? $translatedValues[$translationIndices['description']]->text
