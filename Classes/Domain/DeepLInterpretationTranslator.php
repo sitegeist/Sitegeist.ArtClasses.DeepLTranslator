@@ -58,7 +58,7 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
             ? $this->translator->translateText(
                 $textsToTranslate,
                 $sourceLocale?->getLanguage(),
-                $targetLocale->getLanguage()
+                $this->getLanguage($targetLocale),
             )
             : [];
 
@@ -103,5 +103,41 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
             $imageInterpretation->dominantColors,
             $imageInterpretation->cropHints
         );
+    }
+
+    /**
+     * @param array<string,string> $tags
+     * @return array<string,string>
+     */
+    public function translateTags(array $tags, ?Locale $sourceLocale, Locale $targetLocale): array
+    {
+        $indexedTags = [];
+        $translatedTags = $this->translator->translateText(
+            array_values($tags),
+            $sourceLocale?->getLanguage(),
+            $this->getLanguage($targetLocale),
+        );
+        foreach (array_keys($tags) as $i => $tagId) {
+            $indexedTags[$tagId] = $translatedTags[$i]->text;
+        }
+
+        return $indexedTags;
+    }
+
+    private function getLanguage(?Locale $locale): ?string
+    {
+        if ($locale) {
+            $language = $locale->getLanguage();
+            $variant = $locale->getVariant();
+            if ($language === 'en' && !$variant) {
+                $variant = 'US';
+            }
+            if ($variant) {
+                $language .= '-' . $variant;
+            }
+            return $language;
+        }
+
+        return null;
     }
 }
