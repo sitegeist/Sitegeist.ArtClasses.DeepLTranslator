@@ -84,11 +84,13 @@ final class DeepLInterpretationTranslator implements ImageInterpretationTranslat
         $additionalTexts = [];
         foreach ($translationIndices['texts'] ?? [] as $labelIndex => $translationIndex) {
             $text = $texts[$labelIndex];
-            $additionalTexts[] = new InterpretedText(
-                $translatedValues[$translationIndex]->text,
-                null,
-                $text->boundingPolygon
-            );
+            if ($translatedValues[$translationIndex]->text !== $text->text) {
+                $additionalTexts[] = new InterpretedText(
+                    $translatedValues[$translationIndex]->text,
+                    null,
+                    $text->boundingPolygon
+                );
+            }
         }
 
         return new ImageInterpretation(
